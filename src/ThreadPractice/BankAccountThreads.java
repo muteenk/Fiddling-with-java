@@ -1,5 +1,22 @@
+package ThreadPractice;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
+/*  DEADLOCK EXAMPLE
+*
+*   This example represents Deadlocks in Action.
+*   We have used different ordering for Sending Thread and Receiving Thread.
+*   Which causes resource starvation and leads to Deadlock.
+*
+*   The FIX: To fix the mutual exclusion deadlock,
+*   we simply need to fix the ordering of the locks.
+*   The Ordering for all the locks needs to be same,
+*   in-order to resolve it.
+*
+* */
+
 
 public class BankAccountThreads {
     private float balance = 100000;
@@ -51,13 +68,13 @@ public class BankAccountThreads {
             t.add(receiveThread);
         }
 
-        for (int i = 0; i < t.size(); i++){
-            t.get(i).start();
+        for (Thread thread : t) {
+            thread.start();
         }
 
-        for (int i = 0; i < t.size(); i++){
+        for (Thread thread : t) {
             try {
-                t.get(i).join();
+                thread.join();
             } catch (Exception e) {
                 e.printStackTrace();
             }

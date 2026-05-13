@@ -1,25 +1,35 @@
+package ThreadPractice;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
-class Task {
-    private final String title;
-    private String status;
 
-    public Task(String title) {
-        this.title = title;
-        this.status = "PENDING";
-    }
-    public void markDone() {this.status="DONE";}
-    public void repr() {
-        System.out.println("-----------------------");
-        System.out.println("TASK: " + this.title);
-        System.out.println("STATUS: " + this.status);
-        System.out.println("-----------------------\n");
-    }
-}
+/*  IMPLEMENTING PRODUCER CONSUMER BUFFER WITH SEMAPHORES
+*
+*   In this example, we are utilizing semaphores along with mutex locks
+*   to ensure multiple producers and consumers can act together without
+*   failure or race conditions.
+*
+*   The producer consumer problems:
+*   - Consumer tries to consume before anything is produced
+*   - Producer tries to write to queue, even though it is full
+*
+*   So, we use semaphores with '5' permits,
+*   which allows only 5 queue slots to be filled up
+*   by threads, once a slot is occupied the permit goes down by one
+*   This happens on emptySlots.acquire(), it does 5-1
+*
+*   Then, once a slot is occupied by a thread, it calls
+*   occupiedSlots.release(), which internally does 0+1
+*   to tell the consumer that you can consume 1 item
+*
+*   BUT, that's not it, we still need mutex locks, semaphores
+*   only limit the no. of threads, the critical section still remains
+*   unsafe. For that we still use mutex locks.
+* */
 
 public class ProducerConsumerThreads {
     private final Object mutex = new Object();
