@@ -7,11 +7,11 @@ import java.util.Queue;
 
 public class ProducerConsumerRaw {
     private final Object mutex = new Object();
-    private final int MAX_CAPACITY = 5;
     private final Queue<Task> taskQueue = new LinkedList<>();
 
     class Producer implements Runnable {
         private final Task task;
+        int MAX_CAPACITY = 5;
         Producer(Task task) {
             this.task = task;
         }
